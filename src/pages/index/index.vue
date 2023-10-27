@@ -3,6 +3,7 @@
     <image class="logo" src="/static/logo.png"></image>
     <view class="text-area">
       <text class="title">{{ title }}</text>
+        <text> wait ... </text>
     </view>
   </view>
 </template>
