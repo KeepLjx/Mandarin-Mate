@@ -16,17 +16,19 @@ Mandarin-Mate
 前端
 
 <div align=center>
-<img src="image/qianduan.png" width="40%">
+<img src="image/qianduan.png" width="50%">
 </div>
 
 后端
 
 <div align=center>
-<img src="image/后端.png" width="40%">
+<img src="image/后端.png" width="50%">
 </div>
 
 ## **功能模块**
 
 <div align=center>
-<img src="image/gongneng.png" width="40%">
+<img src="image/gongneng.png" width="60%">
 </div>
+
+## **软件预览**
