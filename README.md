@@ -24,29 +24,101 @@ Mandarin-Mate
 * **收藏表**：包含用户ID以及用户收藏的单词ID。
 ### **数据库关系图**
 <div align=center>
-<img src="image/er.png" width="40%">
+<img src="image/er.png" width="60%">
 </div>
 
 ### **数据库表结构**
 * **user[用户表]**
   
-| 表头     | 表头     | 表头     |
+| 字段     | 名称     | 数据类型 | 主键    | 非空     | 默认值  | 
+| -------- | -------- | -------- |-------- | -------- | -------- |
+| user_id | 用户ID | BIGINT | √ | √ |  | 
+| nick_name | 用户昵称| VARCHAR |
+| password | 密码 | VARCHAR |
+| isVIP | 是否会员 | TINYINT |  | √ |  |
+| avatar_path | 头像路径 | VARCHAR |
+| learning_level | 学习等级| TINYINT | 
+| phone | 用户电话 | VARCHAR |
+| user_mail | 用户邮箱 | VARCHAR | 
+| open_id | 微信小程序用户ID | VARCHAR |
+| create_time | 注册时间 | DETETIME | 
+
+
+* **schedule[进度表]**
+  
+| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
+| -------- | -------- | -------- |-------- | -------- | -------- |
+| user_id | 用户ID | BIGINT | √ | √ |
+| book_id | 词书ID | BIGINT | √ | √ |
+| is_delete | 是否删除 | INT |
+| completed | 完成进度 | BIGINT |
+
+* **book[词书表]**
+  
+
+| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
+| -------- | -------- | -------- |-------- | -------- | -------- |
+| book_id | 词书ID| BIGINT | √ | √ |   | 
+| book_img  | 词书封面 | VARCHAR|   |  |  | 
+| book_intro  | 词书简介 | VARCHAR |   |  |  | 
+| book_name  | 词书名称 | VARCHAR |   |  |  |
+| book_level  | 词书难易等级 | VARCHAR |   |  |  | 
+
+
+* **words[词语表]**
+  
+
+| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
+| -------- | -------- | -------- |-------- | -------- | -------- |
+| words_id | 词语ID | BIGINT | √ | √ |   | 
+| book_id | 词书ID | BIGINT | √ | √ |   | 
+| words_spell | 拼音拼写 | VARCHAR |
+| example | 例句 | VARCHAR |
+| content | 词表内容| VARCHAR |  | √ |  |
+| type_tag | 词语种类 |VARCHAR |
+| voice_path |  | VARCHAR |
+
+
+* **evaluation[评估表]**
+  
+
+| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
+| -------- | -------- | -------- |-------- | -------- | -------- |
+| user_id | 用户ID | BIGINT | √ | √ |   | 
+| words_id | 词语ID | BIGINT |
+| score | 得分 | BIGINT |
+
+
+* **collection[收藏表]**
+  
+
+| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
+| -------- | -------- | -------- |-------- | -------- | -------- |
+| user_id | 用户ID | BIGINT |   | √ |   |
+| words_id | 词语ID | BIGINT |   | √ |   |
+
+
+## **技术架构**
+### **运行环境**
+
+### **前端技术选型**
+
+| 技术    | 版本     | 说明    | 
 | -------- | -------- | -------- |
-| 行1，列1 | 行1，列2 | 行1，列3 |
-| 行2，列1 | 行2，列2 | 行2，列3 |
-| 行3，列1 | 行3，列2 | 行3，列3 |
-| 行1，列1 | 行1，列2 | 行1，列3 |
-| 行2，列1 | 行2，列2 | 行2，列3 |
-| 行3，列1 | 行3，列2 | 行3，列3 |
+|  |  |  |
+|  |  |  |
 
-## **核心技术栈**
-
-### **前端**
 <div align=center>
 <img src="image/qianduan.jpg" width="40%">
 </div>
                                                                                         
-### **后端**
+### **后端技术选型**
+
+| 技术    | 版本     | 说明    | 
+| -------- | -------- | -------- |
+|  |  |  |
+|  |  |  |
+
 <div align=center>
 <img src="image/houduan.jpg" width="40%">
 </div>
