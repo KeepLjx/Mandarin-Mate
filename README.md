@@ -7,98 +7,18 @@
 Mandarin-Mate 
 </p>  
 
+[后端开发]: [链接地址](https://github.com/KeepLjx/Mandarin-Mate-Server)
+
+
 # **项目介绍**
   本项目是一款专注于汉语自主学习的软件,以纠正用户发音为核心，通过深度卷积神经网络、语音识别等技术，为用户提供个性化学习建议和丰富的学习资源，实现了一个便捷高效的多功能语言学习平台。  
   语伴使用Spring Boot和uniapp进行开发，并利用vue3技术与vite项目包配置工具对项目进行业务开发以及项目管理。
 # **算法介绍**
 项目的语音识别系统的声学模型采用了深度全卷积神经网络，将语音信号转换成语谱图，输入模型中进行训练，在模型的输出端，通过CTC解码，将声音波形信号直接转录为中文普通话拼音序列，在语言模型上，通过最大熵隐含马尔可夫模型，将拼音序列转换为中文文本。
-# 数据库设计
-
-## **系统功能概要**
-* **进度表**：存储用户的学习进度
-* **词书表**：存储平台所有可供学习的词书
-* **词语表**：存储词语信息
-* **用户表**：存储用户登录、收藏、是否为会员等信息，并且与评估表和收藏表关联
-* **评估表**：包含用户每次语音输入后系统的得分和词语ID
-* **收藏表**：包含用户ID以及用户收藏的单词ID。
-## **数据库关系图**
-<div align=center>
-<img src="image/er.png" width="60%">
-</div>
-
-## **数据库表结构**
-* **user[用户表]**
-  
-| 字段     | 名称     | 数据类型 | 主键    | 非空     | 默认值  | 
-| -------- | -------- | -------- |-------- | -------- | -------- |
-| user_id | 用户ID | BIGINT | √ | √ |  | 
-| nick_name | 用户昵称| VARCHAR |
-| password | 密码 | VARCHAR |
-| isVIP | 是否会员 | TINYINT |  | √ |  |
-| avatar_path | 头像路径 | VARCHAR |
-| learning_level | 学习等级| TINYINT | 
-| phone | 用户电话 | VARCHAR |
-| user_mail | 用户邮箱 | VARCHAR | 
-| open_id | 微信小程序用户ID | VARCHAR |
-| create_time | 注册时间 | DETETIME | 
-
-
-* **schedule[进度表]**
-  
-| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
-| -------- | -------- | -------- |-------- | -------- | -------- |
-| user_id | 用户ID | BIGINT | √ | √ |
-| book_id | 词书ID | BIGINT | √ | √ |
-| is_delete | 是否删除 | INT |
-| completed | 完成进度 | BIGINT |
-
-* **book[词书表]**
-  
-
-| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
-| -------- | -------- | -------- |-------- | -------- | -------- |
-| book_id | 词书ID| BIGINT | √ | √ |   | 
-| book_img  | 词书封面 | VARCHAR|   |  |  | 
-| book_intro  | 词书简介 | VARCHAR |   |  |  | 
-| book_name  | 词书名称 | VARCHAR |   |  |  |
-| book_level  | 词书难易等级 | VARCHAR |   |  |  | 
-
-
-* **words[词语表]**
-  
-
-| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
-| -------- | -------- | -------- |-------- | -------- | -------- |
-| words_id | 词语ID | BIGINT | √ | √ |   | 
-| book_id | 词书ID | BIGINT | √ | √ |   | 
-| words_spell | 拼音拼写 | VARCHAR |
-| example | 例句 | VARCHAR |
-| content | 词表内容| VARCHAR |  | √ |  |
-| type_tag | 词语种类 |VARCHAR |
-| voice_path |  | VARCHAR |
-
-
-* **evaluation[评估表]**
-  
-
-| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
-| -------- | -------- | -------- |-------- | -------- | -------- |
-| user_id | 用户ID | BIGINT | √ | √ |   | 
-| words_id | 词语ID | BIGINT |
-| score | 得分 | BIGINT |
-
-
-* **collection[收藏表]**
-  
-
-| 字段     | 名称     | 数据类型    | 主键   | 非空    |默认值   | 
-| -------- | -------- | -------- |-------- | -------- | -------- |
-| user_id | 用户ID | BIGINT |   | √ |   |
-| words_id | 词语ID | BIGINT |   | √ |   |
 
 
 # **技术架构**
-## **运行环境**
+
 
 ## **前端技术选型**
 
@@ -114,26 +34,7 @@ Mandarin-Mate
 |       u-charts       |  2.5.0  |    跨平台图表库    |
 |         yarn         | 1.22.22 |     包管理工具     |
 
-<div align=center>
-<img src="image/qianduan.jpg" width="40%">
-</div>
                                                                                         
-## **后端技术选型**
-
-| 技术    | 版本     | 说明    | 
-| -------- | -------- | -------- |
-|  |  |  |
-|  |  |  |
-
-<div align=center>
-<img src="image/houduan.jpg" width="40%">
-</div>
-
-# **项目开发**
-## **接口开发**
-### **注册接口开发**
-
-
 
 ## **功能模块**
 
