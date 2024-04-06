@@ -1,0 +1,6 @@
+POST http://x3d7vr.natappfree.cc/user/weChatLogin HTTP/1.1
+Content-Type: application/json
+
+{
+    "code": "0c1Ui40w3g7yp23btj1w3pvpsE4Ui405"
+}

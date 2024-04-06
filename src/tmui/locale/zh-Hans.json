@@ -1,0 +1,23 @@
+{
+  "language": "简体-中国",
+  "app.name": "语伴",
+  "login.title.login": "登录",
+  "login.title.signUp": "注册",
+  "login.title.forgotPassword": "忘记密码",
+  "login.title.moreWayToLogin": "更多登录方式",
+  "login.title.eMail": "邮箱",
+  "login.title.password": "密码",
+  "login.title.rePassword": "确认密码",
+  "login.title.identity": "获取验证码",
+  "login.title.placeholderEMail": "请输入邮箱",
+  "login.title.placeholderPassword": "请输入密码",
+  "login.title.tip": "请稍等...",
+  "index.tab.home": "首页",
+  "index.tab.dict": "词典",
+  "index.tab.more": "学习圈",
+  "index.tab.centre": "个人中心",
+  "index.learning.title": "目前等级",
+  "index.remaining.title": "复习词汇",
+  "index.start": "开始",
+  "index.task": "任务"
+}

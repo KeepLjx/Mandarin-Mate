@@ -1,0 +1,49 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^tm-(.*)": "@/tmui/components/tm-$1/tm-$1.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/login/login",
+      "style": {}
+    },
+    {
+      "path": "pages/index/index",
+      "style": {}
+    },
+    {
+      "path": "pages/centre/centre",
+      "style": {}
+    },
+    {
+      "path": "pages/dicts/dicts",
+      "style": {}
+    },
+    {
+      "path": "pages/more/more",
+      "style": {}
+    }
+  ],
+  "globalStyle": {
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/dicts/dicts"
+      },
+      {
+        "pagePath": "pages/more/more"
+      },
+      {
+        "pagePath": "pages/centre/centre"
+      }
+    ]
+  }
+}

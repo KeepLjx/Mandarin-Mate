@@ -1,0 +1,23 @@
+{
+  "language": "English-US",
+  "app.name": "Mandrain-Mate",
+  "login.title.login": "login",
+  "login.title.signUp": "sign up",
+  "login.title.forgotPassword": "forgot password",
+  "login.title.moreWayToLogin": "more way to login",
+  "login.title.eMail": "e-mail",
+  "login.title.password": "password",
+  "login.title.rePassword": "re-enter password",
+  "login.title.identity": "get capcha",
+  "login.title.placeholderEMail": "please enter your e-mail",
+  "login.title.placeholderPassword": "please enter your password",
+  "login.title.tip": "waiting...",
+  "index.tab.home": "home",
+  "index.tab.dict": "word books",
+  "index.tab.more": "study circle",
+  "index.tab.centre": "centre",
+  "index.learning.title": "Current Level",
+  "index.remaining.title": "remaining vocabulary",
+  "index.start": "start",
+  "index.task": "task"
+}
