@@ -1,6 +1,6 @@
 # **语伴**
 <div align=center>
-<img src="image/logoyuan.png" width="30%">
+<img src="logoyuan.png" width="30%">
 </div>
 
 <p align="center">  
@@ -53,7 +53,7 @@ Mandarin-Mate
 包括收藏夹、错词本、我的语伴、消息、用户信息、设置等功能模块。
     
 <div align=center>
-<img src="image/gongneng.png" width="60%">
+<img src="gongneng.png" width="60%">
 </div>
 
 ## **软件预览**
