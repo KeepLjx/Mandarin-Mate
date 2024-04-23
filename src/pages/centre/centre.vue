@@ -1,34 +1,89 @@
 <template>
    <tm-app ref="app">
       <Header />
-      <!-- <image class="logo" src="/static/logo.png" /> -->
-
-      <tm-button @click="click">ctb</tm-button>
-      <view class="w-32 h-32 bg-blue-500"></view>
+      <tm-sheet :padding="[1]">
+         <nav class=" h-10 flex  justify-between">
+            <view>
+               <text class=" font-bold text-lg">个人中心</text>
+            </view>
+            <view class=" flex  gap-2">
+               <tm-icon name="tmicon-md-more" :font-size="40"></tm-icon>
+               <tm-icon name="tmicon-tongzhifill" :font-size="40"></tm-icon>
+            </view>
+         </nav>
+         <view class=" flex gap-4 justify-evenly bg-slate-200 rounded-e-sm shadow-current p-2">
+            <view @click="uploadImage"> <tm-avatar :size="150" :round="26" :img="avatarUrl"></tm-avatar> </view>
+            <view class=" flex flex-col justify-center  w-1/3 gap-2">
+               <text class=" font-bold text-center ">{{ nickName }}</text>
+               <text class=" text-center">UID: {{ UID }}</text>
+            </view>
+            <view class=" flex items-center">
+               <tm-icon name="tmicon-qrcode"></tm-icon>
+            </view>
+         </view>
+         <view class=" mt-8">
+            <tm-cell :margin="[0, 0]" bottom-border :border="2" :titleFontSize="30" title="My favorite"> </tm-cell>
+            <tm-cell :margin="[0, 0]" bottom-border :border="2" :titleFontSize="30" title="My Notebook"> </tm-cell>
+            <tm-cell :margin="[0, 0]" bottom-border :border="2" :titleFontSize="30" title="Message Manage"> </tm-cell>
+            <tm-cell :margin="[0, 0]" bottom-border :border="2" :titleFontSize="30" title="Privacy and Security">
+            </tm-cell>
+            <tm-cell :margin="[0, 0]" bottom-border :border="2" :titleFontSize="30" title="Settings"> </tm-cell>
+         </view>
+      </tm-sheet>
    </tm-app>
    <Footer :active-number="4" />
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, onBeforeMount } from 'vue'
 import { language } from '@/tmui/tool/lib/language'
 import Header from '@/components/header/index.vue'
 import Footer from '@/components/footer/index.vue'
+import DocumentApi from '@/service/document'
+import { uploadFilePaths } from '@/service/baseurl'
 
 
-function click() {
-   if (uni.getLocale() === 'en') {
-      uni.setLocale('zh-Hans')
-   } else {
-      uni.setLocale('en')
-   }
+const avatarUrl = ref('')
+const nickName = ref('')
+const UID = ref('')
+
+
+onBeforeMount(() => {
+   avatarUrl.value = uni.getStorageSync('userInfo').avatarUrl || ''
+   nickName.value = uni.getStorageSync('userInfo').nickName || ''
+   UID.value = uni.getStorageSync('UID') || ''
+})
+
+function uploadImage() {
+   uni.chooseImage({
+      count: 1,
+      crop: {
+         width: 200,
+         height: 200,
+         quality: 100
+      },
+      success: (res) => {
+         uni.downloadFile({
+            url: res.tempFilePaths[0],
+            success: async (downRes) => {
+               if (downRes.statusCode === 200) {
+                  let tmpPath = downRes.tempFilePath
+                  console.log(tmpPath);
+
+                  const uploadRes = await DocumentApi.uploadFile(uploadFilePaths.image, tmpPath, UID.value)
+                  console.log(uploadRes);
+
+               }
+            }
+         })
+      },
+      fail: (err) => {
+         console.log(err);
+      }
+   })
 }
 
 </script>
 
 
-<style scoped>
-.home {
-   color: red
-}
-</style>
+<style scoped></style>

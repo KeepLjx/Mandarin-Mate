@@ -59,7 +59,6 @@ onBeforeMount(async () => {
    }
 
    let token = uni.getStorageSync('token')
-   console.log(token);
 
    if (token) {
       uni.showLoading({
@@ -67,9 +66,18 @@ onBeforeMount(async () => {
          mask: true
       })
       try {
+         if (!uni.getStorageSync('userInfo')) {
+            uni.getUserInfo({
+               provider: 'weixin',
+               success: (res) => {
+                  uni.setStorageSync('userInfo', { nickName: res.userInfo.nickName, avatarUrl: res.userInfo.avatarUrl })
+               }
+            })
+         }
          let res = await LoginApi.getUserInfo(token)
          switch (res.code) {
             case statusCode.login_statusCode.SUCCESS:
+               uni.setStorageSync('UID', res.data.userInfo.userId)
                uni.switchTab({
                   url: '/pages/index/index'
                })
@@ -275,7 +283,7 @@ async function getCapcha() {
       <view class=" w-screen bg-blue-600 backWall">
       </view>
       <view class="form-area rounded-md shadow-lg w-5/6 z-10 mx-auto">
-         <image src="../../static/icons/logo.svg" class=" w-28 h-28 z-999 mx-auto -mt-16  " mode="scaleToFill" />
+         <image src="../../static/icons/logo.svg" class=" w-24 h-24 z-999 mx-auto -mt-16  " mode="scaleToFill" />
          <tm-sheet>
             <image src="../../static/icons/translation.svg" alt="" class=" w-4 h-4" @click="translate" />
             <tm-tabs @change="tabschange" showTabsLineAni :list="tabsTitle" :item-width="220" :item-font-size="36"
@@ -315,8 +323,8 @@ async function getCapcha() {
 
                <tm-form-item :margin="[0, 12]">
                   <tm-button type="primary" form-type="submit" :_style="'margin:auto;'" :round="20" :width="450">{{
-               title
-            }}</tm-button>
+                     title
+                  }}</tm-button>
                   <tm-text :label="language('login.title.forgotPassword')" color="primary" :font-size="24"
                      :_style="'display:inline-block;margin:20rpx auto'"></tm-text>
                </tm-form-item>

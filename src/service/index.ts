@@ -65,7 +65,7 @@ export default function preRequest(params: RequestParams): Promise<RequestRespon
                duration: 1500
             })
             reject(`网络请求失败,${err}`)
-         }
+         },
       })
    })
 }
