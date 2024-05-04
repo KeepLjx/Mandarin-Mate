@@ -78,6 +78,7 @@ onBeforeMount(async () => {
          switch (res.code) {
             case statusCode.login_statusCode.SUCCESS:
                uni.setStorageSync('UID', res.data.userInfo.userId)
+               uni.setStorageSync('learningLevel', res.data.userInfo.learningLevel)
                uni.switchTab({
                   url: '/pages/index/index'
                })

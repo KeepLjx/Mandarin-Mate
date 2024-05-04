@@ -27,10 +27,11 @@
             <tm-cell :margin="[0, 0]" bottom-border :border="2" :titleFontSize="30" title="Message Manage"> </tm-cell>
             <tm-cell :margin="[0, 0]" bottom-border :border="2" :titleFontSize="30" title="Privacy and Security">
             </tm-cell>
-            <tm-cell :margin="[0, 0]" bottom-border :border="2" :titleFontSize="30" title="Settings"> </tm-cell>
+            <tm-cell :margin="[0, 0]" bottom-border :border="2" :titleFontSize="30" title="Settings"></tm-cell>
          </view>
       </tm-sheet>
    </tm-app>
+   <tm-notification :placement="'top'" ref="msg" :offset="[32, 220]"></tm-notification>
    <Footer :active-number="4" />
 </template>
 
@@ -39,17 +40,17 @@ import { ref, getCurrentInstance, onBeforeMount } from 'vue'
 import { language } from '@/tmui/tool/lib/language'
 import Header from '@/components/header/index.vue'
 import Footer from '@/components/footer/index.vue'
-import DocumentApi from '@/service/document'
-import { uploadFilePaths } from '@/service/baseurl'
+import { uploadFilePaths, uploadUrl } from '@/service/baseurl'
+import tmNotification from '@/tmui/components/tm-notification/tm-notification.vue'
 
-
+const msg = ref<InstanceType<typeof tmNotification> | null>(null)
 const avatarUrl = ref('')
 const nickName = ref('')
 const UID = ref('')
 
 
 onBeforeMount(() => {
-   avatarUrl.value = uni.getStorageSync('userInfo').avatarUrl || ''
+   avatarUrl.value = uni.getStorageSync('avatar').avatarUrl || ''
    nickName.value = uni.getStorageSync('userInfo').nickName || ''
    UID.value = uni.getStorageSync('UID') || ''
 })
@@ -63,16 +64,22 @@ function uploadImage() {
          quality: 100
       },
       success: (res) => {
-         uni.downloadFile({
-            url: res.tempFilePaths[0],
-            success: async (downRes) => {
-               if (downRes.statusCode === 200) {
-                  let tmpPath = downRes.tempFilePath
-                  console.log(tmpPath);
-
-                  const uploadRes = await DocumentApi.uploadFile(uploadFilePaths.image, tmpPath, UID.value)
-                  console.log(uploadRes);
-
+         const tempFilePaths = res.tempFilePaths
+         uni.uploadFile({
+            url: uploadUrl,
+            filePath: tempFilePaths[0],
+            name: 'file',
+            formData: {
+               'path': `${uni.getStorageSync('UID')}/avatar`,
+            },
+            success: (res) => {
+               if (res.statusCode === 200) {
+                  const data = JSON.parse(res.data)
+                  uni.setStorageSync('avatar', { avatarUrl: data.data })
+                  avatarUrl.value = data.data
+                  msg.value?.show({
+                     label: 'upload success',
+                  })
                }
             }
          })

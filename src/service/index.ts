@@ -16,12 +16,9 @@ interface RequestResponse {
    success: boolean
    code: number
    message: string
-   data: DataStructure
+   data: any
 }
 
-interface DataStructure {
-   [key: string]: any
-}
 
 export default function preRequest(params: RequestParams): Promise<RequestResponse> {
    return new Promise((resolve, reject) => {

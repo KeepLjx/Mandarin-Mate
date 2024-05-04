@@ -14,7 +14,7 @@
       <tm-input suffix="tmicon-picture-fill" prefix="tmicon-search" showClear :border="2"></tm-input>
     </tm-sheet>
     <tm-sheet :height="1000" :padding="[0]" :margin="[32, 100, 32, 32]">
-      <view
+      <view @click="toLearning"
         class=" size-40  shadow-2xl shadow-slate-400 bg-slate-200  rounded-3xl   mx-auto mb-28  flex flex-col gap-2 p-4">
         <text class="text text-center text-lg text-slate-400  font-bold block ">{{
           language('index.learning.title')
@@ -30,7 +30,7 @@
         <text class="text text-center text-lg  text-slate-700 font-bold block">{{ language('index.start') }} ▶</text>
       </view>
     </tm-sheet>
-    <tm-notification :placement="'top'" ref="msg" :offset="[32, 220]" :color="'red'" label="登录成功"></tm-notification>
+    <tm-notification :placement="'top'" ref="msg" :offset="[32, 220]" label="登录成功"></tm-notification>
   </tm-app>
   <Footer :active-number="0" />
 </template>
@@ -38,31 +38,53 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, onMounted } from 'vue'
 import { language } from '@/tmui/tool/lib/language'
-import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
+import { onLaunch, onShow, onHide, onLoad } from "@dcloudio/uni-app";
 import Header from '@/components/header/index.vue'
 import Footer from '@/components/footer/index.vue'
 import { NotificationType } from '@/global/extraConfig'
 import tmNotification from '@/tmui/components/tm-notification/tm-notification.vue'
+import LoginApi from '@/service/login';
+import loginConfig from '../login/loginConfig';
 
 const msg = ref<InstanceType<typeof tmNotification> | null>(null)
-function click() {
-  if (uni.getLocale() === 'en') {
-    uni.setLocale('zh-Hans')
-  } else {
-    uni.setLocale('en')
-  }
-}
+
 
 onShow(() => {
   uni.hideTabBar()
 })
 
-onMounted(() => {
-  msg.value?.show({
-    color: NotificationType.SUCCESS,
-    label: '登录成功'
-  })
+
+
+onMounted(async () => {
+  const res = await LoginApi.getUserInfo(uni.getStorageSync('token'))
+  if (res.code == loginConfig.login_statusCode.SUCCESS) {
+    uni.setStorageSync('bookId', res.data.userInfo.bookId)
+    uni.setStorageSync('userInfo', { nickName: res.data.userInfo.nickName })
+    msg.value?.show({
+      label: 'get user info success',
+    })
+  } else {
+    msg.value?.show({
+      label: 'get user info failed',
+    })
+  }
 })
+
+function toLearning() {
+  if (uni.getStorageSync('bookId')) {
+    uni.navigateTo({
+      url: '/pages/learning/learning',
+    })
+    // uni.switchTab({
+    //   url: '/pages/more/more',
+    // })
+  }
+  else {
+    uni.switchTab({
+      url: '/pages/dicts/dicts',
+    })
+  }
+}
 </script>
 
 <style>

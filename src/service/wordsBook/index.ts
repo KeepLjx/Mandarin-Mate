@@ -1,5 +1,5 @@
 import preRequest from "..";
-class WordBookApi {
+export class WordBookApi {
    constructor() { }
 
 
@@ -25,7 +25,7 @@ class WordBookApi {
 
    static async switchBook(bookId: number, scheduleId: number) {
       const res = await preRequest({
-         url: '/book/switchBookSchedule' + `?bookId=${bookId}&switchBookId=${scheduleId}`,
+         url: '/book/switchBookSchedule' + `?nowBookId=${bookId}&switchBookId=${scheduleId}`,
          method: 'GET',
          header: { token: uni.getStorageSync('token') }
       })

@@ -1,34 +1,34 @@
 <template>
-   <tm-app ref="app">
+   <tm-app ref="app" bgStyle="background: #f8f8f8">
       <Header />
-      <view class="mt-3 ml-3">
+      <view class="mt-3 ml-3" @click="goBack">
          <img src="/static/icons/arrow.svg" alt="" class=" rounded-xl w-8 h-8 bg-blue-500" />
       </view>
-      <tm-sheet :padding="[0]" :height="1000" :style="'display: flex; flex-direction: column;gap: 20rpx'">
-         <view class="outline-box h-1/4 flex flex-col justify-around  rounded-xl shadow-md">
+      <tm-sheet :padding="[0]" :height="1000" :style="'display: flex; flex-direction: column;gap: 20rpx;'">
+         <view class="outline-box h-1/4 flex flex-col justify-around  rounded-xl">
             <tm-skeleton :height="30" model="card" v-if="showWin"></tm-skeleton>
             <view v-if="!showWin" class="flex flex-col justify-around gap-3">
-               <!-- <text class="inline-block italic font-bold bg-cyan-700 text-white p-1">Content</text> -->
-               <text class="inline-block text-center font-bold text-5xl flex-grow">{{ wordsList[0].content }}</text>
+               <text class="inline-block text-center font-bold text-5xl flex-grow">{{ wordsList[wordIdx].content
+                  }}</text>
                <tm-icon name="tmicon-ios-volume-high" :font-size="60" :color="iconColor" @click="playSound"></tm-icon>
             </view>
          </view>
-         <view class="outline-box h-1/2  rounded-xl  shadow-md ">
+         <view class="outline-box h-1/2  rounded-xl   ">
             <scroll-view scroll-y>
                <tm-skeleton :height="40" model="card" v-if="showWin"></tm-skeleton>
                <view v-if="!showWin" class="flex flex-col gap-3">
                   <text class="inline-block italic font-bold bg-cyan-700 text-white p-1">Example</text>
-                  <text class="inline-block text-center">{{ wordsList[0].example }}</text>
+                  <text class="inline-block text-center">{{ wordsList[wordIdx].example }}</text>
                </view>
             </scroll-view>
          </view>
-         <view class="outline-box h-1/4  shadow-xl  rounded-xl  ">
+         <view class="outline-box h-1/4    rounded-xl  ">
             <tm-skeleton :height="30" model="card" v-if="showWin"></tm-skeleton>
             <view v-if="!showWin" class=" flex flex-col gap-2">
                <text class="inline-block italic font-bold  bg-cyan-700 text-white p-1">Spells</text>
                <view class="mx-auto flex  gap-12">
                   <text class=" inline-block w-1/4" style="font-size: 60rpx;"
-                     v-for="(item, index) in dealPinYin(wordsList[0].wordsSpell)" :key="item">{{
+                     v-for="(item, index) in dealPinYin(wordsList[wordIdx].wordsSpell)" :key="item">{{
                         item }}
                   </text>
                </view>
@@ -36,17 +36,17 @@
          </view>
       </tm-sheet>
       <view class=" mx-auto">
-         <panel class="flex flex-row gap-3 h-30 bg-cyan-400 bg-opacity-35 backdrop-blur-lg shadow-lg p-5 rounded-md">
-            <tm-button label="Last " @click=""></tm-button>
+         <panel class="flex flex-row gap-3 h-30 bg-cyan-400 bg-opacity-35  p-5 rounded-md shadow-Effect">
+            <tm-button :shadow="10" label="Last " @click="switchLast"></tm-button>
             <view class="my-auto">
                <Microphone />
             </view>
-            <tm-button label="Next " @click=""></tm-button>
+            <tm-button :shadow="10" label="Next " @click="switchNext"></tm-button>
          </panel>
       </view>
       <tm-notification :placement="'top'" ref="msg" :offset="[32, 220]" :color="'grey'"> </tm-notification>
    </tm-app>
-   <Footer :active-number="3" />
+   <!-- <Footer :active-number="3" /> -->
 </template>
 
 <script setup lang="ts">
@@ -66,6 +66,7 @@ import { ossurl } from '@/service/baseurl'
 const msg = ref<InstanceType<typeof tmNotification> | null>(null)
 const iconColor = ref(AudioType.pause)
 const wordsList = ref<WordSList[]>([])
+const wordIdx = ref(0)
 const pinYinList = ref<any[]>([])
 const showWin = ref(true)
 let audioContext = uni.createInnerAudioContext()
@@ -82,10 +83,42 @@ function playSound() {
    }
 }
 
-onShow(() => {
-   uni.hideTabBar()
-})
+const switchLast = () => {
+   if (wordIdx.value > 0) {
+      wordIdx.value = wordIdx.value - 1
+      changeWord()
+   }
+   else {
+      msg.value?.show({ label: 'Now is the first', duration: 1000 })
+   }
+}
 
+const switchNext = () => {
+   if (wordIdx.value < wordsList.value.length - 1) {
+      wordIdx.value = wordIdx.value + 1
+      changeWord()
+   }
+   else {
+      msg.value?.show({ label: 'Now is the last', duration: 1000 })
+   }
+}
+
+const changeVoice = (index: number) => {
+   if (audioContext) {
+      pinYinList.value = dealPinYin(wordsList.value[index].wordsSpell)
+      audioContext.src = ossurl + wordsList.value[index].voicePath
+   }
+}
+
+const goBack = () => {
+   uni.navigateBack()
+}
+
+const changeWord = () => {
+   showWin.value = true
+   changeVoice(wordIdx.value)
+   showWin.value = false
+}
 
 
 onBeforeMount(async () => {
@@ -98,8 +131,7 @@ onBeforeMount(async () => {
    if (res.code === loginConfig.login_statusCode.SUCCESS) {
       wordsList.value = res.data.wordsInfo
       // console.log(dealPinYin(wordsList.value[0].wordsSpell));
-      pinYinList.value = dealPinYin(wordsList.value[0].wordsSpell)
-      audioContext.src = ossurl + wordsList.value[0].voicePath
+      changeVoice(0)
       showWin.value = false
       uni.hideLoading()
       uni.showToast({
@@ -122,8 +154,13 @@ onBeforeMount(async () => {
    width: 90%;
    background-color: #f0f0f0;
    border: 3px solid #246cd8;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   /* 好看的阴影 */
+   box-shadow: 0 0 10px #3e74c6;
    transition: all 0.3s ease;
    margin: 10rpx auto;
+}
+
+.shadow-Effect {
+   box-shadow: 0 0 10px #80a1d3;
 }
 </style>

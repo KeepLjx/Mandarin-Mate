@@ -25,6 +25,10 @@
     {
       "path": "pages/more/more",
       "style": {}
+    },
+    {
+      "path": "pages/learning/learning",
+      "style": {}
     }
   ],
   "globalStyle": {
