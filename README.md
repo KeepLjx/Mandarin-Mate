@@ -58,3 +58,6 @@ Mandarin-Mate
 </div>
 
 ## **软件预览**
+<div align=center>
+<img src="ui.png" width="60%">
+</div>
